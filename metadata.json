@@ -1,0 +1,6 @@
+{
+  "name": "The Fix Point",
+  "description": "Native Android mobile phone repair app for The Fix Point in Oran, Algeria with home repair, parts delivery, and pickup & return services in Arabic and French.",
+  "requestFramePermissions": ["geolocation", "camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

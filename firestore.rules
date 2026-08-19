@@ -1,0 +1,59 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAdmin() {
+      return request.auth != null && request.auth.token.role == 'admin';
+    }
+    
+    // Public read collections for catalog & configuration
+    match /services/{serviceId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /devices/{deviceId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /prices/{priceId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Courier accounts
+    match /couriers/{courierId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    // Customers collection
+    match /customers/{customerId} {
+      allow read, create: if true;
+      allow update, delete: if isAdmin() || (request.auth != null && request.auth.uid == customerId);
+    }
+    
+    // Orders collection: Customers can create, query by ID/tracking; Couriers can read & update assigned orders; Admin has full access
+    match /orders/{orderId} {
+      allow create: if true;
+      allow read: if true; // Publicly accessible via tracking code, or auth restricted
+      allow update: if true; // Allows customer status updates, courier status/proof updates, admin full management
+      allow delete: if isAdmin();
+    }
+    
+    // Order status timeline history
+    match /order_status_history/{historyId} {
+      allow read: if true;
+      allow create: if true;
+      allow update, delete: if isAdmin();
+    }
+    
+    // Notifications
+    match /notifications/{notificationId} {
+      allow read, create: if true;
+      allow update, delete: if true;
+    }
+  }
+}

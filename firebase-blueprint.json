@@ -1,0 +1,120 @@
+{
+  "entities": {
+    "customers": {
+      "title": "Customer",
+      "description": "Customer contact profiles and order history",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "fullName": { "type": "string" },
+        "phoneNumber": { "type": "string" },
+        "secondaryPhone": { "type": "string" },
+        "commune": { "type": "string" },
+        "address": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "fullName", "phoneNumber"]
+    },
+    "orders": {
+      "title": "Repair Order",
+      "description": "Phone repair orders with timeline, pricing, and courier tracking",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orderNumber": { "type": "string" },
+        "clientName": { "type": "string" },
+        "clientPhone": { "type": "string" },
+        "secondaryPhone": { "type": "string" },
+        "commune": { "type": "string" },
+        "address": { "type": "string" },
+        "lat": { "type": "number" },
+        "lng": { "type": "number" },
+        "serviceType": { "type": "string" },
+        "brand": { "type": "string" },
+        "model": { "type": "string" },
+        "problemId": { "type": "string" },
+        "status": { "type": "string" },
+        "partPrice": { "type": "number" },
+        "laborFee": { "type": "number" },
+        "travelFee": { "type": "number" },
+        "discount": { "type": "number" },
+        "estimatedTotal": { "type": "number" },
+        "finalPrice": { "type": "number" },
+        "assignedCourierId": { "type": "string" },
+        "assignedCourierName": { "type": "string" },
+        "assignedCourierPhone": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "orderNumber", "clientName", "clientPhone", "brand", "model", "problemId", "status"]
+    },
+    "couriers": {
+      "title": "Courier",
+      "description": "Delivery agents for pickups, deliveries, and COD verification",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "phoneNumber": { "type": "string" },
+        "pin": { "type": "string" },
+        "vehicleType": { "type": "string" },
+        "isActive": { "type": "boolean" },
+        "assignedZone": { "type": "string" }
+      },
+      "required": ["id", "name", "phoneNumber", "pin", "isActive"]
+    },
+    "prices": {
+      "title": "Price Item",
+      "description": "Official The Fix Point price catalog item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "brand": { "type": "string" },
+        "model": { "type": "string" },
+        "partName": { "type": "string" },
+        "partPrice": { "type": "number" },
+        "laborFee": { "type": "number" },
+        "servicePrice": { "type": "number" },
+        "travelFee": { "type": "number" },
+        "discount": { "type": "number" },
+        "estimatedTotal": { "type": "number" },
+        "quality": { "type": "string" },
+        "warrantyMonths": { "type": "number" },
+        "inStock": { "type": "boolean" }
+      },
+      "required": ["id", "brand", "model", "partName", "partPrice", "laborFee"]
+    },
+    "order_status_history": {
+      "title": "Status History Event",
+      "description": "Audit trail of order lifecycle status updates",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orderId": { "type": "string" },
+        "status": { "type": "string" },
+        "changedBy": { "type": "string" },
+        "role": { "type": "string" },
+        "note": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["id", "orderId", "status", "timestamp"]
+    },
+    "notifications": {
+      "title": "Notification",
+      "description": "In-app and push notification event records",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "orderId": { "type": "string" },
+        "recipientPhone": { "type": "string" },
+        "title": { "type": "string" },
+        "message": { "type": "string" },
+        "status": { "type": "string" },
+        "read": { "type": "boolean" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["id", "title", "message", "createdAt"]
+    }
+  },
+  "firestoreRules": "rules_version = '2';\nservice cloud.firestore {\n  match /databases/{database}/documents {\n    match /{document=**} {\n      allow read, write: if true;\n    }\n  }\n}"
+}
